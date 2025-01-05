@@ -1,0 +1,3 @@
+C:/Users/satry/Documents/github/RayTracing/build/CMakeFiles/inOneWeekend.dir
+C:/Users/satry/Documents/github/RayTracing/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/satry/Documents/github/RayTracing/build/CMakeFiles/ZERO_CHECK.dir
