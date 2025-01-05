@@ -18,6 +18,7 @@ set ( SOURCE_ONE_WEEKEND
 )
 
 include_directories(src)
+include_directories(headers)
 
 # Specific compiler flags below. We're not going to add options for all possible compilers, but if
 # you're new to CMake (like we are), the following may be a helpful example if you're using a
