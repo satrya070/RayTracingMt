@@ -15,6 +15,9 @@ set ( EXTERNAL
 
 set ( SOURCE_ONE_WEEKEND
     src/main.cpp
+    #headers/color.h
+    #headers/ray.h
+    #headers/vec3.h
 )
 
 include_directories(src)
