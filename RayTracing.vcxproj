@@ -23,7 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\color.h" />
+    <ClInclude Include="headers\hittable.h" />
+    <ClInclude Include="headers\hittable_list.h" />
     <ClInclude Include="headers\ray.h" />
+    <ClInclude Include="headers\rtweekend.h" />
+    <ClInclude Include="headers\sphere.h" />
     <ClInclude Include="headers\vec3.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

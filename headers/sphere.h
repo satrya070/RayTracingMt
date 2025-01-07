@@ -2,7 +2,7 @@
 #define SPHERE_H
 
 #include "hittable.h"
-#include "vec3.h"
+#include "rtweekend.h"
 
 class sphere : public hittable {
 	public:
@@ -22,7 +22,7 @@ class sphere : public hittable {
 
 			// find nearest root in acceptabel range
 			auto root = (h - sqrtd) / a;
-			if (root <= ray_tmin || ray_tmax <= ray_tmax) {
+			if (root <= ray_tmin || ray_tmax <= root) {
 				root = (h + sqrtd) / a;
 				if (root <= ray_tmin || ray_tmax <= root)
 					return false;
