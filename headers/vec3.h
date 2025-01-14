@@ -18,6 +18,13 @@ public:
 	double operator[](int i) const { return e[i]; }
 	double& operator[](int i) { return e[i]; }
 
+	vec3& operator+=(const vec3& v) {
+		e[0] += v.e[0];
+		e[1] += v.e[1];
+		e[2] += v.e[2];
+		return *this;
+	}
+
 	vec3& operator*=(double t) {
 		e[0] *= t;
 		e[1] *= t;
@@ -35,6 +42,14 @@ public:
 
 	double length_squared() const {
 		return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
+	}
+
+	static vec3 random() {
+		return vec3(random_double(), random_double(), random_double());
+	}
+
+	static vec3 random(double min, double max) {
+		return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
 	}
 };
 
