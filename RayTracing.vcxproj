@@ -27,6 +27,7 @@
     <ClInclude Include="headers\hittable.h" />
     <ClInclude Include="headers\hittable_list.h" />
     <ClInclude Include="headers\interval.h" />
+    <ClInclude Include="headers\material.h" />
     <ClInclude Include="headers\ray.h" />
     <ClInclude Include="headers\rtweekend.h" />
     <ClInclude Include="headers\sphere.h" />
