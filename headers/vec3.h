@@ -108,6 +108,7 @@ inline vec3 unit_vector(const vec3& v) {
 }
 
 inline vec3 random_unit_vector() {
+	// rejection method
 	while (true) {
 		auto p = vec3::random(-1, 1);
 		auto lensq = p.length_squared();
@@ -125,6 +126,7 @@ inline vec3 random_on_hemisphere(const vec3& normal) {
 }
 
 inline vec3 reflect(const vec3& v, const vec3& n) {
+	// mirror metal reflection
 	return v - 2 * dot(v, n) * n;
 }
 
