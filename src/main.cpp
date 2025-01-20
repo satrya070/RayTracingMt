@@ -8,7 +8,7 @@
 
 int main()
 {
-	hittable_list world;
+	/*hittable_list world;
 
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
@@ -37,9 +37,15 @@ int main()
     cam.defocus_angle = 10.0;
     cam.focus_dist = 3.4;
 
-    cam.render(world);
+    cam.render(world);*/
 
-    /*auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+
+    // --------final image
+    auto start = std::chrono::high_resolution_clock::now();
+
+    hittable_list world;
+
+    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
     for (int a = -11; a < 11; a++) {
@@ -85,7 +91,7 @@ int main()
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
-    cam.samples_per_pixel = 10;
+    cam.samples_per_pixel = 100;
     cam.max_depth = 50;
 
     cam.vfov = 20;
@@ -96,5 +102,10 @@ int main()
     cam.defocus_angle = 0.6;
     cam.focus_dist = 10.0;
 
-    cam.render(world);*/
+    cam.render(world);
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    std::clog << "main duration: " << duration.count() << std::endl;
 }
