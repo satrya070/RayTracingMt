@@ -170,7 +170,7 @@ class camera {
 				for (int col = 0; col < image_width; col++) {
 					color pixel_color(0, 0, 0);
 					for (int sample = 0; sample < samples_per_pixel; sample++) {
-						ray r = get_ray(row, col);
+						ray r = get_ray(col, row);
 						pixel_color += ray_color(r, max_depth, world);
 					}
 
