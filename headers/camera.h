@@ -13,6 +13,7 @@
 #include <vector>
 
 std::mutex mtx;
+std::atomic<int> rows_todo;
 
 class camera {
 	public:
@@ -93,6 +94,7 @@ class camera {
 		void initialize() {
 			image_height = int(image_width / aspect_ratio);
 			image_height = (image_height < 1) ? 1 : image_height; // clamp minimum height to 1px
+			rows_todo = image_height;
 
 			pixel_samples_scale = 1.0 / samples_per_pixel;
 
@@ -163,8 +165,7 @@ class camera {
 			return ray(ray_origin, ray_direction);
 		}
 
-		void renderSection(const int start_y, const int end_y, const hittable& world, std::map<int, std::map<int, std::string>>& results) {
-
+		void renderSection(const int start_y, const int end_y, const hittable& world, std::map<int, std::map<int, std::string>>& results) {			
 			for (int row = start_y; row < end_y; row++)
 			{
 				for (int col = 0; col < image_width; col++) {
@@ -180,6 +181,8 @@ class camera {
 					std::lock_guard<std::mutex> lock(mtx);
 					results[row][col] = colorString;
 				}
+				rows_todo.fetch_sub(1);
+				std::clog << "rows left to process: " << rows_todo << std::endl;
 			}
 		}
 
