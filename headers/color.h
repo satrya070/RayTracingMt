@@ -54,7 +54,7 @@ std::string write_color_string(std::ostream& out, const color& pixel_color) {
 	int bbyte = int(256 * intensity.clamp(b));
 
 	// write out the pixel color
-	std::string colorString = std::format("{} {} {}\n", rbyte, gbyte, bbyte);
+	std::string colorString = std::format("{} {} {} ", rbyte, gbyte, bbyte);
 	
 	return colorString;
 }

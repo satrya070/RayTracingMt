@@ -37,7 +37,7 @@ class camera {
 
 			// init multithread
 			const int num_threads = std::thread::hardware_concurrency();
-			std::map<int, std::string> results;
+			std::map<int, std::map<int, std::string>> results;
 
 			// divide thread work
 			std::vector<std::thread> threads;
@@ -72,7 +72,7 @@ class camera {
 
 			for (int i = 0; i < image_height; i++) {
 				for (int j = 0; j < image_width; j++) {
-					std::cout << results[i];
+					std::cout << results[i][j];
 				}
 			}
 
@@ -163,7 +163,7 @@ class camera {
 			return ray(ray_origin, ray_direction);
 		}
 
-		void renderSection(const int start_y, const int end_y, const hittable& world, std::map<int, std::string>& results) {
+		void renderSection(const int start_y, const int end_y, const hittable& world, std::map<int, std::map<int, std::string>>& results) {
 
 			for (int row = start_y; row < end_y; row++)
 			{
@@ -178,7 +178,7 @@ class camera {
 
 					// write results
 					std::lock_guard<std::mutex> lock(mtx);
-					results.insert({ row, colorString });
+					results[row][col] = colorString;
 				}
 			}
 		}
