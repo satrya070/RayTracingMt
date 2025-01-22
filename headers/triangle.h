@@ -4,7 +4,7 @@
 
 class triangle : public hittable {
 public:
-	triangle(vec3 v0, vec3 v1, vec3 v2, shared_ptr<material> mat) : v0(v0), v1(v1), v2(v2) {
+	triangle(vec3 v0, vec3 v1, vec3 v2, shared_ptr<material> mat) : v0(v0), v1(v1), v2(v2), mat(mat) {
 	}
 
 	bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
