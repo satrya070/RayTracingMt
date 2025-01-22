@@ -4,6 +4,7 @@
 #include "hittable.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "triangle.h"
 
 
 int main()
@@ -47,6 +48,13 @@ int main()
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+
+    world.add(make_shared<triangle>(
+        point3(-1.0, 2.0, 4.0),
+        point3(1.0, 2.0, 4.0),
+        point3(0.0, 3.5, 4.0),
+        ground_material
+    ));
 
     /*for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
@@ -96,8 +104,8 @@ int main()
     cam.max_depth = 50;
 
     cam.vfov = 20;
-    cam.lookfrom = point3(13, 2, 3);
-    cam.lookat = point3(0, 0, 0);
+    cam.lookfrom = point3(0, 0, 0);  //cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, -10);//cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);
 
     cam.defocus_angle = 0.6;
