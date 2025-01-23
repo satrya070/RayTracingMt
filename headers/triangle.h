@@ -1,6 +1,10 @@
 #include "hittable.h"
 #include "rtweekend.h"
 
+#define CULLING
+
+constexpr float Epsilon = 1e-8;
+
 
 class triangle : public hittable {
 public:
@@ -16,10 +20,10 @@ public:
 
 #ifdef CULLING
 		// determinant negative is back facing triangle
-		// if(det < kEpsilon) return false;
+		if(det < Epsilon) return false;
 # else
 		// determinant close to zero, ray and triangle are parrallel
-		// if(det < kEpsilon) return false;
+		if(fabs(det) < Epsilon) return false;
 #endif
 		float invDet = 1 / det;
 		vec3 T = r.origin() - v0;
@@ -37,7 +41,7 @@ public:
 		// update all param references
 		rec.t = t;
 		rec.p = r.at(rec.t);
-		vec3 outward_normal = unit_vector(cross(v0v1, v0v2));
+		vec3 outward_normal = unit_vector(cross(v0v1, v0v2)); //unit_vector(cross(v0v1, v0v2));
 
 		rec.set_face_normal(r, outward_normal);
 		rec.mat = mat;

@@ -53,7 +53,7 @@ int main()
         point3(-12.0, 2.0, 0.0),
         point3(-8.0, 2.0, 0.0),
         point3(-10.0, 3.5, 0.0),
-        make_shared<lambertian>(color(0.7, 0.7, 0.1))
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.3)
     ));
 
     /*for (int a = -11; a < 11; a++) {
@@ -100,12 +100,12 @@ int main()
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
-    cam.samples_per_pixel = 2;
+    cam.samples_per_pixel = 10;
     cam.max_depth = 10;
 
     cam.vfov = 40;
-    cam.lookfrom = point3(13, 2, 17);
-    cam.lookat = point3(0, 0, 0);
+    cam.lookfrom = point3(13, 2, 13);
+    cam.lookat = point3(-5, 0, 0);
     //cam.lookfrom = point3(0, 0, 0);  //cam.lookfrom = point3(13, 2, 3);
     //cam.lookat = point3(0, 0, -10);//cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);
