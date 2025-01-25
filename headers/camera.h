@@ -59,18 +59,6 @@ class camera {
 				thread.join();
 			}
 
-			//for (int j = 0; j < image_height; j++) {
-				/*std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
-				for (int i = 0; i < image_width; i++) {
-					color pixel_color(0, 0, 0);
-					for (int sample = 0; sample < samples_per_pixel; sample++) {
-						ray r = get_ray(i, j);
-						pixel_color += ray_color(r, max_depth, world);
-					}
-					write_color(std::cout, pixel_samples_scale * pixel_color);
-				}*/
-			//}
-
 			for (int i = 0; i < image_height; i++) {
 				for (int j = 0; j < image_width; j++) {
 					std::cout << results[i][j];
@@ -146,6 +134,7 @@ class camera {
 				return color(0, 0, 0);
 			}
 
+			// when nothing is hit(air)
 			vec3 unit_direction = unit_vector(r.direction());
 			auto a = 0.5 * (unit_direction.y() + 1.0);
 			return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
