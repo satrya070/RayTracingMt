@@ -4,6 +4,17 @@
 #include "hittable.h"
 #include "material.h"
 
+#include <thread>
+#include <map>
+#include <string>
+#include <mutex>
+#include <format>
+#include <sstream>
+#include <vector>
+
+std::mutex mtx;
+std::atomic<int> rows_todo;
+
 class camera {
 	public:
 		double aspect_ratio = 1.0; // ratio width over height
@@ -25,15 +36,32 @@ class camera {
 
 			std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-			for (int j = 0; j < image_height; j++) {
-				std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
-				for (int i = 0; i < image_width; i++) {
-					color pixel_color(0, 0, 0);
-					for (int sample = 0; sample < samples_per_pixel; sample++) {
-						ray r = get_ray(i, j);
-						pixel_color += ray_color(r, max_depth, world);
-					}
-					write_color(std::cout, pixel_samples_scale * pixel_color);
+			// init multithread
+			const int num_threads = std::thread::hardware_concurrency();
+			std::map<int, std::map<int, std::string>> results;
+
+			// divide thread work
+			std::vector<std::thread> threads;
+			int rows_per_thread = image_height / num_threads;
+			int extra_rows = image_height % num_threads;
+
+			// launch threads
+			int current_row = 0;
+			for (int i = 0; i < num_threads; i++) {
+				int start_y = current_row;
+				int end_y = start_y + rows_per_thread + (i < extra_rows ? 1 : 0);
+				threads.emplace_back(&camera::renderSection,this, start_y, end_y, std::ref(world), std::ref(results));
+				current_row = end_y;
+			}
+
+			// join threads
+			for (auto& thread : threads) {
+				thread.join();
+			}
+
+			for (int i = 0; i < image_height; i++) {
+				for (int j = 0; j < image_width; j++) {
+					std::cout << results[i][j];
 				}
 			}
 
@@ -54,6 +82,7 @@ class camera {
 		void initialize() {
 			image_height = int(image_width / aspect_ratio);
 			image_height = (image_height < 1) ? 1 : image_height; // clamp minimum height to 1px
+			rows_todo = image_height;
 
 			pixel_samples_scale = 1.0 / samples_per_pixel;
 
@@ -105,6 +134,7 @@ class camera {
 				return color(0, 0, 0);
 			}
 
+			// when nothing is hit(air)
 			vec3 unit_direction = unit_vector(r.direction());
 			auto a = 0.5 * (unit_direction.y() + 1.0);
 			return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
@@ -122,6 +152,27 @@ class camera {
 			auto ray_direction = pixel_sample - ray_origin;
 
 			return ray(ray_origin, ray_direction);
+		}
+
+		void renderSection(const int start_y, const int end_y, const hittable& world, std::map<int, std::map<int, std::string>>& results) {			
+			for (int row = start_y; row < end_y; row++)
+			{
+				for (int col = 0; col < image_width; col++) {
+					color pixel_color(0, 0, 0);
+					for (int sample = 0; sample < samples_per_pixel; sample++) {
+						ray r = get_ray(col, row);
+						pixel_color += ray_color(r, max_depth, world);
+					}
+
+					std::string colorString = write_color_string(std::cout, pixel_samples_scale * pixel_color);
+
+					// write results
+					std::lock_guard<std::mutex> lock(mtx);
+					results[row][col] = colorString;
+				}
+				rows_todo.fetch_sub(1);
+				std::clog << "rows left to process: " << rows_todo << std::endl;
+			}
 		}
 
 		point3 defocus_disk_sample() const {
