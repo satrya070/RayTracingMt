@@ -57,14 +57,6 @@ public:
 	static vec3 random(double min, double max) {
 		return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
 	}
-
-	vec3 cross(const vec3 f) const {
-		double cross_x = (e[1] * f[2]) - (e[2] * f[1]);
-		double cross_y = (e[2] * f[0]) - (e[0] * f[2]);
-		double cross_z = (e[0] * f[1]) - (e[1] * f[0]);
-
-		return vec3(cross_x, cross_y, cross_z);
-	}
 };
 
 //point3 is an alias for vec3, but useful for geometric clarity in the code
