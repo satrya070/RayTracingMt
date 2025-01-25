@@ -49,12 +49,42 @@ int main()
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
-    world.add(make_shared<triangle>(
+    /*world.add(make_shared<triangle>(
         point3(-12.0, 2.0, 0.0),
         point3(-8.0, 2.0, 0.0),
         point3(-10.0, 3.5, 0.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.3)
+    ));*/
+
+    world.add(make_shared<triangle>(
+        point3(-10.0,0.0, -4.0),
+        point3(-8.0, 0.0, -2.0),
+        point3(-8.0, 2.5, -4.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
     ));
+
+    world.add(make_shared<triangle>(
+        point3(-8.0, 0.0, -2.0),
+        point3(-6.0, 0.0, -4.0),
+        point3(-8.0, 2.5, -4.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
+    ));
+
+   /* world.add(make_shared<triangle>(
+        point3(-12.0, 2.0, 0.0),
+        point3(-8.0, 2.0, 0.0),
+        point3(-10.0, 3.5, 0.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
+    ));
+
+    world.add(make_shared<triangle>(
+        point3(-12.0, 2.0, 0.0),
+        point3(-8.0, 2.0, 0.0),
+        point3(-10.0, 3.5, 0.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
+    ));*/
+
+
 
     /*for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
@@ -104,8 +134,8 @@ int main()
     cam.max_depth = 10;
 
     cam.vfov = 40;
-    cam.lookfrom = point3(13, 2, 13);
-    cam.lookat = point3(-5, 0, 0);
+    cam.lookfrom = point3(3, 2, 15);
+    cam.lookat = point3(0, 0, 0);
     //cam.lookfrom = point3(0, 0, 0);  //cam.lookfrom = point3(13, 2, 3);
     //cam.lookat = point3(0, 0, -10);//cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);
