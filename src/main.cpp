@@ -1,3 +1,4 @@
+#define TINYOBJLOADER_IMPLEMENTATION
 #include "rtweekend.h"
 
 #include "camera.h"
@@ -5,10 +6,67 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "tiny_obj_loader.h"
 
 
 int main()
 {
+    hittable_list world;
+
+    tinyobj::ObjReader reader;
+    tinyobj::ObjReaderConfig reader_config;
+    reader_config.mtl_search_path = "./";
+
+    std::string patho = "./local/lowpoly_tree.obj";
+    if (!reader.ParseFromFile(patho)) {
+        if (!reader.Error().empty()) {
+            std::cerr << "TinyObjLoader: " << reader.Error() << std::endl;
+        }
+        exit(1);
+    }
+
+    if (!reader.Warning().empty()) {
+        std::clog << "TinyObjReader: " << reader.Warning();
+    }
+
+    auto& attrib = reader.GetAttrib();
+    auto& shapes = reader.GetShapes();
+    auto& materials = reader.GetMaterials();
+
+    size_t index_offset = 0;
+    for (size_t f = 0; f < shapes[0].mesh.num_face_vertices.size(); f++) {
+        size_t fv = size_t(shapes[0].mesh.num_face_vertices[f]);
+
+        point3 triangle_points[3];
+
+        // loop over face vertices
+        for (size_t v = 0; v < fv; v++) {
+            // vertex access
+            tinyobj::index_t idx = shapes[0].mesh.indices[index_offset + v];
+            tinyobj::real_t vx = attrib.vertices[3 * size_t(idx.vertex_index) + 0];
+            tinyobj::real_t vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
+            tinyobj::real_t vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
+
+            triangle_points[v] = point3(vx * 0.6, vy * 0.6 - 11, vz * 0.6 - 63);
+      
+
+            //std::clog << '(' << vx << ", " << vy << ", " << vz << ')' << std::endl;
+        }
+
+        world.add(
+            make_shared<triangle>(
+                triangle_points[0],
+                triangle_points[1],
+                triangle_points[2],
+                make_shared<lambertian>(color(0.9, 0.1, 0.1))
+            )
+        );
+
+        index_offset += fv;
+    }
+
+    //std::cout << "model loading done." << std::endl;
+
 	/*hittable_list world;
 
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
@@ -43,8 +101,6 @@ int main()
 
     // --------final image ---------------------------------------------------
     auto start = std::chrono::high_resolution_clock::now();
-
-    hittable_list world;
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
@@ -130,12 +186,12 @@ int main()
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
-    cam.samples_per_pixel = 10;
+    cam.samples_per_pixel = 1;
     cam.max_depth = 10;
 
     cam.vfov = 40;
-    cam.lookfrom = point3(3, 2, 15);
-    cam.lookat = point3(0, 0, 0);
+    cam.lookfrom = point3(3, 3, 19);
+    cam.lookat = point3(1, 4, 0);
     //cam.lookfrom = point3(0, 0, 0);  //cam.lookfrom = point3(13, 2, 3);
     //cam.lookat = point3(0, 0, -10);//cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);

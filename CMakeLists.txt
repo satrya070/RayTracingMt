@@ -15,13 +15,11 @@ set ( EXTERNAL
 
 set ( SOURCE_ONE_WEEKEND
     src/main.cpp
-    #headers/color.h
-    #headers/ray.h
-    #headers/vec3.h
 )
 
 include_directories(src)
 include_directories(headers)
+include_directories(Libraries)
 
 # Specific compiler flags below. We're not going to add options for all possible compilers, but if
 # you're new to CMake (like we are), the following may be a helpful example if you're using a
@@ -52,3 +50,4 @@ endif()
 
 # Executables
 add_executable(inOneWeekend      ${EXTERNAL} ${SOURCE_ONE_WEEKEND})
+target_include_directories(inOneWeekend PRIVATE ${CMAKE_SOURCE_DIR}/Libraries/tinyObjLoader)
