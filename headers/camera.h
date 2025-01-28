@@ -21,6 +21,7 @@ class camera {
 		int image_width = 100; // rendered image width in pixels
 		int samples_per_pixel = 10; // count of random samples for each pixel
 		int max_depth = 1; // max limit of ray bounces
+		int num_workers = std::thread::hardware_concurrency();
 
 		double vfov = 90;
 		point3 lookfrom = point3(0, 0, 0); // point camera is looking from
@@ -37,7 +38,7 @@ class camera {
 			std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
 			// init multithread
-			const int num_threads = std::thread::hardware_concurrency();
+			const int num_threads = num_workers;
 			std::map<int, std::map<int, std::string>> results;
 
 			// divide thread work
@@ -129,14 +130,14 @@ class camera {
 				// from given ray hitpoint p, shoot another ray from in random direction from p. until no more hits
 				ray scattered;
 				color attenuation;
-				/*if (rec.mat->scatter(r, rec, attenuation, scattered))
+				if (rec.mat->scatter(r, rec, attenuation, scattered))
 					return attenuation * ray_color(scattered, depth - 1, world);
 				return color(0, 0, 0);
-				*/
-				double distance = r.origin().z() + rec.t * std::abs(r.direction().z());
+				
+				//double distance = r.origin().z() + rec.t * std::abs(r.direction().z());
 				//double distNorm = std::min((distance / 100.0), 1.0);
-				color normNorm = color((rec.normal.x() + 1) * 0.5, (rec.normal.y() + 1) * 0.5, (rec.normal.z() + 1) * 0.5);
-				return normNorm;
+				//color normNorm = color((rec.normal.x() + 1) * 0.5, (rec.normal.y() + 1) * 0.5, (rec.normal.z() + 1) * 0.5);
+				//return normNorm;
 			}
 
 			// when nothing is hit(air)

@@ -47,7 +47,7 @@ int main()
             tinyobj::real_t vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
             tinyobj::real_t vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
 
-            triangle_points[v] = point3(vx * 0.6, vy * 0.6 - 11, vz * 0.6 - 63);
+            triangle_points[v] = point3(vx * 0.3, vy * 0.3 - 11, vz * 0.3 - 15);
       
 
             //std::clog << '(' << vx << ", " << vy << ", " << vz << ')' << std::endl;
@@ -187,7 +187,7 @@ int main()
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
     cam.samples_per_pixel = 10;
-    cam.max_depth = 10;
+    cam.max_depth = 50;
 
     cam.vfov = 40;
     cam.lookfrom = point3(3, 3, 19);
