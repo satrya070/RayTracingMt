@@ -58,7 +58,7 @@ int main()
                 triangle_points[0],
                 triangle_points[1],
                 triangle_points[2],
-                make_shared<lambertian>(color(0.9, 0.1, 0.1))
+                make_shared<metal>(color(0.1, 0.9, 0.1), 0.0)
             )
         );
 
@@ -186,7 +186,7 @@ int main()
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
-    cam.samples_per_pixel = 1;
+    cam.samples_per_pixel = 10;
     cam.max_depth = 10;
 
     cam.vfov = 40;

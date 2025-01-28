@@ -20,7 +20,7 @@ class camera {
 		double aspect_ratio = 1.0; // ratio width over height
 		int image_width = 100; // rendered image width in pixels
 		int samples_per_pixel = 10; // count of random samples for each pixel
-		int max_depth = 10; // max limit of ray bounces
+		int max_depth = 1; // max limit of ray bounces
 
 		double vfov = 90;
 		point3 lookfrom = point3(0, 0, 0); // point camera is looking from
@@ -129,9 +129,14 @@ class camera {
 				// from given ray hitpoint p, shoot another ray from in random direction from p. until no more hits
 				ray scattered;
 				color attenuation;
-				if (rec.mat->scatter(r, rec, attenuation, scattered))
+				/*if (rec.mat->scatter(r, rec, attenuation, scattered))
 					return attenuation * ray_color(scattered, depth - 1, world);
 				return color(0, 0, 0);
+				*/
+				double distance = r.origin().z() + rec.t * std::abs(r.direction().z());
+				//double distNorm = std::min((distance / 100.0), 1.0);
+				color normNorm = color((rec.normal.x() + 1) * 0.5, (rec.normal.y() + 1) * 0.5, (rec.normal.z() + 1) * 0.5);
+				return normNorm;
 			}
 
 			// when nothing is hit(air)
