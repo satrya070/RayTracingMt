@@ -38,6 +38,10 @@ public:
 
 		double t = dot(v0v2, qvec) * invDet;
 
+		if (t > ray_t.max)
+			// already hit an closer by object
+			return false;
+
 		// update all param references
 		rec.t = t;
 		rec.p = r.at(rec.t);

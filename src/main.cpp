@@ -34,7 +34,8 @@ int main()
     auto& materials = reader.GetMaterials();
 
     size_t index_offset = 0;
-    for (size_t f = 0; f < shapes[0].mesh.num_face_vertices.size(); f++) {
+    int num_face_vertices = shapes[0].mesh.num_face_vertices.size();
+    for (size_t f = 0; f < 100; f++) {
         size_t fv = size_t(shapes[0].mesh.num_face_vertices[f]);
 
         point3 triangle_points[3];
@@ -47,7 +48,7 @@ int main()
             tinyobj::real_t vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
             tinyobj::real_t vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
 
-            triangle_points[v] = point3(vx * 0.3, vy * 0.3 - 11, vz * 0.3 - 15);
+            triangle_points[v] = point3(vx * 0.1 + 2.0, vy * 0.1 - 1, vz * 0.1 -8);
       
 
             //std::clog << '(' << vx << ", " << vy << ", " << vz << ')' << std::endl;
@@ -55,10 +56,10 @@ int main()
 
         world.add(
             make_shared<triangle>(
-                triangle_points[0],
-                triangle_points[1],
                 triangle_points[2],
-                make_shared<metal>(color(0.1, 0.9, 0.1), 0.0)
+                triangle_points[1],
+                triangle_points[0],
+                make_shared<metal>(color(0.1, 0.9, 0.1), 0.1)
             )
         );
 
@@ -105,25 +106,26 @@ int main()
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
-    /*world.add(make_shared<triangle>(
-        point3(-12.0, 2.0, 0.0),
-        point3(-8.0, 2.0, 0.0),
-        point3(-10.0, 3.5, 0.0),
-        make_shared<metal>(color(0.7, 0.6, 0.5), 0.3)
-    ));*/
 
-    world.add(make_shared<triangle>(
+    /*world.add(make_shared<triangle>(
         point3(-10.0,0.0, -4.0),
         point3(-8.0, 0.0, -2.0),
         point3(-8.0, 2.5, -4.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
-    ));
+    ));*/
 
     world.add(make_shared<triangle>(
         point3(-8.0, 0.0, -2.0),
         point3(-6.0, 0.0, -4.0),
         point3(-8.0, 2.5, -4.0),
-        make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.1)
+    ));
+
+    world.add(make_shared<triangle>(
+        point3(-8.0, 0.0, -8.0),
+        point3(-4.0, 0.0, -8.0),
+        point3(-6.0, 3.0, -8.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0.1)
     ));
 
    /* world.add(make_shared<triangle>(
@@ -174,7 +176,7 @@ int main()
     */
 
     auto material1 = make_shared<dielectric>(1.5);
-    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material1));
+    world.add(make_shared<sphere>(point3(0, 1, 2), 1.0, material1));
 
     auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, material2));
@@ -186,18 +188,19 @@ int main()
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width = 1200;
-    cam.samples_per_pixel = 10;
+    cam.samples_per_pixel = 2;
     cam.max_depth = 50;
 
     cam.vfov = 40;
-    cam.lookfrom = point3(3, 3, 19);
+    cam.lookfrom = point3(-10, 3, 19);
     cam.lookat = point3(1, 4, 0);
     //cam.lookfrom = point3(0, 0, 0);  //cam.lookfrom = point3(13, 2, 3);
     //cam.lookat = point3(0, 0, -10);//cam.lookat = point3(0, 0, 0);
     cam.vup = vec3(0, 1, 0);
 
     cam.defocus_angle = 0.6;
-    cam.focus_dist = 10.0;
+    cam.focus_dist = 20; //10.0;
+    // cam.num_workers = 1;
 
     cam.render(world);
 
