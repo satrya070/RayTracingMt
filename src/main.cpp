@@ -35,7 +35,7 @@ int main()
 
     size_t index_offset = 0;
     int num_face_vertices = shapes[0].mesh.num_face_vertices.size();
-    for (size_t f = 0; f < 100; f++) {
+    /*for (size_t f = 0; f < 145; f++) {
         size_t fv = size_t(shapes[0].mesh.num_face_vertices[f]);
 
         point3 triangle_points[3];
@@ -56,15 +56,15 @@ int main()
 
         world.add(
             make_shared<triangle>(
-                triangle_points[2],
-                triangle_points[1],
                 triangle_points[0],
-                make_shared<metal>(color(0.1, 0.9, 0.1), 0.1)
+                triangle_points[1],
+                triangle_points[2],
+                make_shared<metal>(color(0.1, 0.9, 0.1), 0)
             )
         );
 
         index_offset += fv;
-    }
+    }*/
 
     //std::cout << "model loading done." << std::endl;
 
@@ -114,18 +114,26 @@ int main()
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.0)
     ));*/
 
-    world.add(make_shared<triangle>(
+    /*world.add(make_shared<triangle>(
         point3(-8.0, 0.0, -2.0),
         point3(-6.0, 0.0, -4.0),
         point3(-8.0, 2.5, -4.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.1)
-    ));
+    ));*/
 
     world.add(make_shared<triangle>(
         point3(-8.0, 0.0, -8.0),
         point3(-4.0, 0.0, -8.0),
         point3(-6.0, 3.0, -8.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.1)
+    ));
+
+    //tree triangle
+   world.add(make_shared<triangle>(
+        point3(3.0, 0.0, -14.0),
+        point3(9.0, 0.0, -14.0),
+        point3(6.0, 4.0, -14.0),
+        make_shared<metal>(color(0.7, 0.6, 0.5), 0)
     ));
 
    /* world.add(make_shared<triangle>(
@@ -178,7 +186,7 @@ int main()
     auto material1 = make_shared<dielectric>(1.5);
     world.add(make_shared<sphere>(point3(0, 1, 2), 1.0, material1));
 
-    auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+    auto material2 = make_shared<lambertian>(color(0.722, 0.22, 0.169));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, material2));
 
     auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
