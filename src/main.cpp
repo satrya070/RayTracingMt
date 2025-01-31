@@ -122,16 +122,16 @@ int main()
     ));*/
 
     world.add(make_shared<triangle>(
-        point3(-8.0, 0.0, -8.0),
-        point3(-4.0, 0.0, -8.0),
-        point3(-6.0, 3.0, -8.0),
+        point3(-6.0, 0.0, -6.5),
+        point3(-2.0, 0.0, -9.5),
+        point3(-4.0, 3.0, -8.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0.1)
     ));
 
     //tree triangle
    world.add(make_shared<triangle>(
-        point3(3.0, 0.0, -14.0),
-        point3(9.0, 0.0, -14.0),
+        point3(3.0, 0.0, -16.0),
+        point3(9.0, 0.0, -12.0),
         point3(6.0, 4.0, -14.0),
         make_shared<metal>(color(0.7, 0.6, 0.5), 0)
     ));
